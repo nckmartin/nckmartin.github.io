@@ -3,40 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nick's Cozy Corner</title>
+    <title>Nick's Website</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
-        img {
-            display: inline-block;
-            vertical-align: middle;
-            margin: 0 5px;
+        header {
+            text-align: center;
+            margin-bottom: 20px;
         }
         hr {
-            border: none;
-            border-top: 1px solid black;
-            margin: 10px 0;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
         }
-        .animated-text {
+        a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .content {
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            font-size: 0.9em;
-            white-space: nowrap;
+            gap: 20px;
         }
-        .animated-text span {
-            display: inline-block;
-            animation: scroll 10s linear infinite;
+        .content img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 50%;
         }
-        @keyframes scroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        .content .text {
+            max-width: 600px;
         }
     </style>
 </head>
@@ -44,28 +47,39 @@
     <header>
         <h1>Nick's Website</h1>
         <hr>
-        <div class="animated-text">
-            <img src="ParisCafe9362pikaconstruct.gif" alt="construction">
-            <span>
-                <img src="ararea51stargate6736construct.gif" alt="construction">
-                PERPETUALLY UNDER CONSTRUCTION. PARDON THE DUST, FOREVER.
-                <img src="ararea51stargate6736construct.gif" alt="construction">
-            </span>
-            <img src="ParisCafe9362pikaconstruct.gif" alt="construction">
-        </div>
-        <hr>
     </header>
     <main>
-        <p>Welcome to Nick's cozy corner of the world wide web.</p>
-        <p>
-            I bought this domain years ago with grand ambitions to make my mark on the internet. 
-            Big ideas, bold plans—none of which I actually followed through on.
-        </p>
-        <p>
-            However, now that <a href="https://bsky.app/profile/nickmartin.ca" target="_blank">Bluesky</a> lets usernames double as URLs for verification, 
-            I felt obligated to make something of this website. Unfortunately, my HTML skills peaked back in 2002 
-            when I was in middle school, so this is what we're working with.
-        </p>
+        <div class="content">
+            <img src="nick.jpg" alt="A picture of Nick">
+            <div class="text">
+                <p>Welcome to Nick's cozy corner of the web.</p>
+                <p>
+                    I bought this domain years ago with big ideas that didn’t quite materialize. 
+                    But now, with <a href="https://bsky.app/profile/nickmartin.ca" target="_blank">Bluesky</a> verification, 
+                    it’s got a purpose.
+                    Unfortunately, my HTML skills peaked at the beginning of the 
+                    millenium when I was in middle school, so this is what we're working with. 
+                </p>
+                <p>
+                  I've spent over a decade working at the intersection of energy 
+                  and climate in New York City, Calgary, and now Toronto.
+                  These days, I’m leading <a href="https://transitionaccelerator.ca" target="_blank">The Transition Accelerator’s</a>
+                  efforts to support the build-out of Canada’s electricity systems capable of powering
+                  the rest of our economy—our buildings, vehicles, businesses, and industries—in a net-zero world.
+                </p>
+            </div>
+        </div>
     </main>
 </body>
+
+    <footer style="text-align: center; margin-top: 40px; font-size: 0.9em; color: #777;">
+        <hr>
+        <p>
+            <img src="ararea51stargate6736construct.gif" alt="Under construction" style="vertical-align: middle; max-width: 50px;">
+            This site is perpetually under construction. Pardon the dust, forever.
+            <img src="ararea51stargate6736construct.gif" alt="Under construction" style="vertical-align: middle; max-width: 50px;">
+        </p>
+    </footer>
+
+
 </html>
