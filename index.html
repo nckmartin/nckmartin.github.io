@@ -29,17 +29,40 @@
         }
         .content {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
             gap: 20px;
         }
         .content img {
-            max-width: 200px;
+            max-width: 100%;
             height: auto;
             border-radius: 50%;
         }
         .content .text {
             max-width: 600px;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .content .text {
+                max-width: 100%;
+            }
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #777;
+        }
+        footer img {
+            vertical-align: middle;
+            max-width: 50px;
         }
     </style>
 </head>
@@ -67,22 +90,19 @@
                   efforts to support the build-out of Canada’s electricity systems capable of powering
                   the rest of our economy—our buildings, vehicles, businesses, and industries—in a net-zero world.
                 </p>
-              <p style="margin-top: 20px;">
-            Want to get in touch? Send me a message on <a href="https://bsky.app/profile/nickmartin.ca" target="_blank">Bluesky</a> (most likely to see) or <a href="https://www.linkedin.com/in/nick-martin-47983b33/" target="_blank">LinkedIn</a> (will eventually see, but not immediately).
-              </p>
+                <p style="margin-top: 20px;">
+                    Want to get in touch? Send me a message on <a href="https://bsky.app/profile/nickmartin.ca" target="_blank">Bluesky</a> (most likely to see) or <a href="https://www.linkedin.com/in/nick-martin-47983b33/" target="_blank">LinkedIn</a> (will eventually see, but not immediately).
+                </p>
             </div>
         </div>
     </main>
-</body>
-
-    <footer style="text-align: center; margin-top: 40px; font-size: 0.9em; color: #777;">
+    <footer>
         <hr>
         <p>
-            <img src="ararea51stargate6736construct.gif" alt="Under construction" style="vertical-align: middle; max-width: 50px;">
+            <img src="ararea51stargate6736construct.gif" alt="Under construction">
             This site is perpetually under construction. Pardon the dust, forever.
-            <img src="ararea51stargate6736construct.gif" alt="Under construction" style="vertical-align: middle; max-width: 50px;">
+            <img src="ararea51stargate6736construct.gif" alt="Under construction">
         </p>
     </footer>
-
-
+</body>
 </html>
