@@ -1,21 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Nick Martin's Cozy Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nick's Cozy Corner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid black;
+            margin: 10px 0;
+        }
+        .animated-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        .animated-text span {
+            display: inline-block;
+            animation: scroll 10s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
 </head>
 <body>
-    <p>Welcome to Nick Martin's cozy corner of the world wide web.</p>
-    <p>I bought this domain years ago with grand ambitions to make my mark on the internet. Big ideas, bold plans—none of which I actually followed through on.</p>
-    <p>However, now that <a href="https://bsky.app/profile/nickmartin.ca" target="_blank">Bluesky</a> lets usernames double as URLs for verification, I felt obligated to make something of this website. Unfortunately, my HTML skills peaked back in 2002 when I was in middle school, so this is what we're working with.</p>
-
-    <div>
-        <img src="ParisCafe9362pikaconstruct.gif" alt="construction" style="display: block; margin: 0 auto;">
-        <div style="text-align: center; border: 1px solid black; padding: 10px; margin: 10px 0;">
-            <img src="ararea51stargate6736construct.gif" alt="construction" style="vertical-align: middle;">
-            UNDER CONSTRUCTION, PARDON THE DUST, FOREVER.
-            <img src="ararea51stargate6736construct.gif" alt="construction" style="vertical-align: middle;">
+    <header>
+        <h1>Nick's Website</h1>
+        <hr>
+        <div class="animated-text">
+            <img src="ParisCafe9362pikaconstruct.gif" alt="construction">
+            <span>
+                <img src="ararea51stargate6736construct.gif" alt="construction">
+                PERPETUALLY UNDER CONSTRUCTION. PARDON THE DUST, FOREVER.
+                <img src="ararea51stargate6736construct.gif" alt="construction">
+            </span>
+            <img src="ParisCafe9362pikaconstruct.gif" alt="construction">
         </div>
-        <img src="ParisCafe9362pikaconstruct.gif" alt="construction" style="display: block; margin: 0 auto;">
-    </div>
+        <hr>
+    </header>
+    <main>
+        <p>Welcome to Nick's cozy corner of the world wide web.</p>
+        <p>
+            I bought this domain years ago with grand ambitions to make my mark on the internet. 
+            Big ideas, bold plans—none of which I actually followed through on.
+        </p>
+        <p>
+            However, now that <a href="https://bsky.app/profile/nickmartin.ca" target="_blank">Bluesky</a> lets usernames double as URLs for verification, 
+            I felt obligated to make something of this website. Unfortunately, my HTML skills peaked back in 2002 
+            when I was in middle school, so this is what we're working with.
+        </p>
+    </main>
 </body>
 </html>
