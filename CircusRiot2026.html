@@ -12,38 +12,7 @@
             padding: 20px;
             text-align: center;
         }
-        #password-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-        }
-        #password-screen input {
-            padding: 10px;
-            font-size: 1em;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #password-screen button {
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background: #007acc;
-            color: white;
-        }
-        #password-screen button:hover {
-            background: #005f99;
-        }
-        #error-msg {
-            color: red;
-            display: none;
-        }
         #content {
-            display: none;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -75,12 +44,6 @@
     </style>
 </head>
 <body>
-    <div id="password-screen">
-        <h2>This page is password protected</h2>
-        <input type="text" id="password-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPassword()">
-        <button onclick="checkPassword()">Enter</button>
-        <p id="error-msg">Incorrect password. Try again.</p>
-    </div>
     <div id="content">
         <h1>SAVE THE DATE: July 11</h1>
         <h2>The Second Annual Toronto Circus Riot Commemoration</h2>
@@ -97,16 +60,5 @@
         <p>We know it's a long ways away, but if you have a sense of whether you can make it, let us know now!</p>
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdtyD2ElzpN_nwl440ykA5nTLLW-6vaGbW6Tl_4nQnhcxRSJA/viewform?embedded=true" width="640" height="993" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
     </div>
-    <script>
-        function checkPassword() {
-            var input = document.getElementById('password-input').value;
-            if (input === 'down2clown') {
-                document.getElementById('password-screen').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
-        }
-    </script>
 </body>
 </html>
