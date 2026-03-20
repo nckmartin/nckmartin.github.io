@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survivor 50 Pool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        #content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            margin-bottom: 5px;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form */
+        .pick-form {
+            border: 1px solid #999;
+            border-radius: 6px;
+            padding: 20px;
+            display: inline-block;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .pick-form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .pick-form input,
+        .pick-form select {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            padding: 8px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+        .pick-form button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            width: 100%;
+        }
+        .pick-form button:hover {
+            background-color: #005f99;
+        }
+        .pick-form button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status messages */
+        #status {
+            margin: 10px 0;
+            font-weight: bold;
+            min-height: 1.6em;
+        }
+        .status-success { color: green; }
+        .status-error { color: red; }
+        .status-loading { color: #555; }
+
+        /* Picks table */
+        .picks-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .picks-table th,
+        .picks-table td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .picks-table th {
+            background-color: #f5f5f5;
+        }
+
+        /* Pool full banner */
+        .pool-full {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 12px 20px;
+            display: inline-block;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .pick-form {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>Survivor 50 Pool</h1>
+        <p>Pick who you think will win Survivor 50: In the Hands of the Fans.<br>
+        Each contestant can only be picked once!</p>
+        <hr>
+
+        <div id="form-section">
+            <div class="pick-form">
+                <form id="pick-form" onsubmit="submitPick(event)">
+                    <label for="name-input">Your Name</label>
+                    <input type="text" id="name-input" placeholder="Enter your name" required>
+
+                    <label for="contestant-select">Your Pick</label>
+                    <select id="contestant-select" required>
+                        <option value="">-- Select a contestant --</option>
+                    </select>
+
+                    <button type="submit" id="submit-btn">Submit Pick</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <hr>
+
+        <h2>Current Picks</h2>
+        <div id="picks-display">
+            <p class="status-loading">Loading picks...</p>
+        </div>
+
+        <footer>
+            <hr>
+            <p><a href="/">nickmartin.ca</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // =====================================================
+        // CONFIGURATION — paste your Apps Script web app URL here
+        // =====================================================
+        var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKZtP-0h3OBQ9bG9c_OLLRu9xwwawe6L6EFn6EebY6FQYZT-BMviKP47i07JUbca8kmA/exec';
+
+        var CONTESTANTS = [
+            'Angelina Keeley',
+            'Aubry Bracco',
+            'Charlie Davis',
+            'Chrissy Hofbeck',
+            'Christian Hubicki',
+            'Cirie Fields',
+            'Coach Wade',
+            'Colby Donaldson',
+            'Dee Valladares',
+            'Emily Flippen',
+            'Genevieve Mushaluk',
+            'Jenna Lewis-Dougherty',
+            'Joe Hunter',
+            'Jonathan Young',
+            'Kamilla Karthigesu',
+            'Kyle Fraser',
+            'Mike White',
+            'Ozzy Lusth',
+            'Q Burdette',
+            'Rick Devens',
+            'Rizo Velovic',
+            'Savannah Louie',
+            'Stephenie Lagrossa Kendrick',
+            'Tiffany Ervin'
+        ];
+
+        var currentPicks = [];
+
+        // Build the dropdown options
+        function buildDropdown() {
+            var select = document.getElementById('contestant-select');
+            // Keep the placeholder
+            select.innerHTML = '<option value="">-- Select a contestant --</option>';
+            CONTESTANTS.forEach(function(name) {
+                var opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                // Check if taken
+                var takenBy = null;
+                for (var i = 0; i < currentPicks.length; i++) {
+                    if (currentPicks[i].pick === name) {
+                        takenBy = currentPicks[i].name;
+                        break;
+                    }
+                }
+                if (takenBy) {
+                    opt.textContent = name + ' (taken by ' + takenBy + ')';
+                    opt.disabled = true;
+                }
+                select.appendChild(opt);
+            });
+        }
+
+        // Render the picks table
+        function renderPicks() {
+            var container = document.getElementById('picks-display');
+            if (currentPicks.length === 0) {
+                container.innerHTML = '<p>No picks yet — be the first!</p>';
+                return;
+            }
+
+            var html = '<table class="picks-table">';
+            html += '<tr><th>Person</th><th>Pick</th></tr>';
+            currentPicks.forEach(function(p) {
+                html += '<tr><td>' + escapeHtml(p.name) + '</td><td>' + escapeHtml(p.pick) + '</td></tr>';
+            });
+            html += '</table>';
+            container.innerHTML = html;
+        }
+
+        // Check if pool is full
+        function checkPoolFull() {
+            if (currentPicks.length >= CONTESTANTS.length) {
+                document.getElementById('form-section').innerHTML =
+                    '<div class="pool-full">The pool is full! All contestants have been picked.</div>';
+            }
+        }
+
+        // Load all picks from the server
+        function loadPicks() {
+            if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+                document.getElementById('picks-display').innerHTML =
+                    '<p class="status-error">Apps Script URL not configured yet.</p>';
+                return;
+            }
+
+            fetch(SCRIPT_URL)
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    currentPicks = data.picks || [];
+                    renderPicks();
+                    buildDropdown();
+                    checkPoolFull();
+                })
+                .catch(function(err) {
+                    document.getElementById('picks-display').innerHTML =
+                        '<p class="status-error">Failed to load picks. Please refresh.</p>';
+                });
+        }
+
+        // Submit a pick
+        function submitPick(e) {
+            e.preventDefault();
+            var name = document.getElementById('name-input').value.trim();
+            var pick = document.getElementById('contestant-select').value;
+            var btn = document.getElementById('submit-btn');
+            var status = document.getElementById('status');
+
+            if (!name || !pick) {
+                status.className = 'status-error';
+                status.textContent = 'Please enter your name and select a contestant.';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            status.className = 'status-loading';
+            status.textContent = '';
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({ name: name, pick: pick })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    status.className = 'status-success';
+                    status.textContent = 'Pick submitted! ' + name + ' → ' + pick;
+                    document.getElementById('name-input').value = '';
+                    loadPicks();
+                } else {
+                    status.className = 'status-error';
+                    status.textContent = data.error || 'Something went wrong.';
+                }
+            })
+            .catch(function(err) {
+                status.className = 'status-error';
+                status.textContent = 'Failed to submit. Please try again.';
+            })
+            .finally(function() {
+                btn.disabled = false;
+                btn.textContent = 'Submit Pick';
+            });
+        }
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', function() {
+            buildDropdown();
+            loadPicks();
+        });
+    </script>
+</body>
+</html>
