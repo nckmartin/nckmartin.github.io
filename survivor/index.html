@@ -295,11 +295,8 @@
             status.className = 'status-loading';
             status.textContent = '';
 
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain' },
-                body: JSON.stringify({ name: name, pick: pick })
-            })
+            var submitUrl = SCRIPT_URL + '?action=submit&name=' + encodeURIComponent(name) + '&pick=' + encodeURIComponent(pick);
+            fetch(submitUrl)
             .then(function(response) { return response.json(); })
             .then(function(data) {
                 if (data.success) {
